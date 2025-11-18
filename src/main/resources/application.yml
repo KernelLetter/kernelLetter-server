@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: kernelLetter
+
+  config:
+    import: "optional:classpath:application-secret.yml"
