@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class LetterController {
     private final LetterService letterService;
 
+    // 편지 작성하기
     @PostMapping
     public void sendLetter(@RequestBody LetterSendDto dto) {
         letterService.sendLetter(dto);
