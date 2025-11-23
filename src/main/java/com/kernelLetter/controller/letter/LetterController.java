@@ -29,7 +29,12 @@ public class LetterController {
     }
 
     // 편지 삭제하기
+    @DeleteMapping("/{letterId}")
+    public ResponseEntity<String> delete(@PathVariable Long letterId) {
+        letterService.delete(letterId);
 
+        return ResponseEntity.ok("삭제가 완료되었습니다.");
+    }
 
     // 편지 조회하기
 

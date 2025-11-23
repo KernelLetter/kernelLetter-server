@@ -44,4 +44,12 @@ public class LetterService {
 
         letter.setContent(dto);
     }
+
+    public void delete(Long letterId) {
+
+        Letter letter = letterRepository.findById(letterId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.LETTER_NOT_EXISTS));
+
+        letterRepository.delete(letter);
+    }
 }
