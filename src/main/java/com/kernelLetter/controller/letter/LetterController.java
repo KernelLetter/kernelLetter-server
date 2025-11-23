@@ -11,9 +11,8 @@ import org.springframework.web.bind.annotation.*;
 public class LetterController {
     private final LetterService letterService;
 
-    @PostMapping("/{receiverId}")
-    public void sendLetter(@PathVariable Long receiverId, @RequestBody LetterSendDto dto) {
-        letterService.sendLetter(receiverId, dto);
+    @PostMapping
+    public void sendLetter(@RequestBody LetterSendDto dto) {
+        letterService.sendLetter(dto);
     }
-
 }

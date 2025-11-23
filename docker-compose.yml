@@ -4,7 +4,7 @@ services:
     container_name: kernelLetter-mysql
     restart: always
     ports:
-      - "3306:3306"
+      - "33306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: 12345678
       MYSQL_DATABASE: kernelLetter

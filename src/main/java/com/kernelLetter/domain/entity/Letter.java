@@ -1,5 +1,6 @@
 package com.kernelLetter.domain.entity;
 
+import com.kernelLetter.dto.LetterSendDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,4 +31,11 @@ public class Letter {
     @Column(nullable = false)
     private String content;
 
+    public static Letter from(User sender, User receiver, String content) {
+        return Letter.builder()
+                .sender(sender)
+                .receiver(receiver)
+                .content(content)
+                .build();
+    }
 }
