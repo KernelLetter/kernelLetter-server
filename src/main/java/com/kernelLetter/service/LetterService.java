@@ -33,7 +33,7 @@ public class LetterService {
     }
 
     public void patch(Long receiverId, LetterPatchDto dto) {
-        Letter letter = letterRepository.findById(receiverId)
+        Letter letter = letterRepository.findBySenderIdAndReceiverId(dto.getSenderId(), receiverId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.LETTER_NOT_EXISTS));
 
         letter.setContent(dto);
