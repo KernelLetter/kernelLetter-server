@@ -2,7 +2,10 @@ package com.kernelLetter.service;
 
 import com.kernelLetter.domain.entity.Letter;
 import com.kernelLetter.domain.entity.User;
+import com.kernelLetter.dto.LetterPatchDto;
 import com.kernelLetter.dto.LetterSendDto;
+import com.kernelLetter.global.error.exception.BusinessException;
+import com.kernelLetter.global.error.ErrorCode;
 import com.kernelLetter.global.error.exception.BusinessException;
 import com.kernelLetter.repository.LetterRepository;
 import com.kernelLetter.repository.UserRepository;
@@ -27,5 +30,12 @@ public class LetterService {
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_EXISTS));
 
         letterRepository.save(Letter.from(sender, receiver, dto.getContent()));
+    }
+
+    public void patch(Long receiverId, LetterPatchDto dto) {
+        Letter letter = letterRepository.findById(receiverId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.LETTER_NOT_EXISTS));
+
+        letter.setContent(dto);
     }
 }
