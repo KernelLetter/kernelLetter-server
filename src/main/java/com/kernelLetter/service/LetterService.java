@@ -29,7 +29,13 @@ public class LetterService {
         User receiver = userRepository.findById(dto.getReceiverId())
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_EXISTS));
 
-        letterRepository.save(Letter.from(sender, receiver, dto.getContent()));
+        // 이미 편지가 존재하는지 확인
+        if (letterRepository.existsBySenderIdAndReceiverId(dto.getSenderId(), dto.getReceiverId())) {
+            throw new BusinessException(ErrorCode.LETTER_ALREADY_EXISTS);
+        }
+        else{
+            letterRepository.save(Letter.from(sender, receiver, dto.getContent()));
+        }
     }
 
     public void patch(Long receiverId, LetterPatchDto dto) {

@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface LetterRepository extends JpaRepository<Letter, Long> {
     Optional<Letter> findBySenderIdAndReceiverId(Long senderId, Long receiverId);
+    boolean existsBySenderIdAndReceiverId(Long senderId, Long receiverId);
 }
