@@ -38,7 +38,7 @@ public enum ErrorCode {
 
     // 편지
     LETTER_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "L-002", "이미 해당 사용자에게 편지를 보냈습니다"),
-    LETTER_NOT_EXISTS(HttpStatus.BAD_REQUEST,"L-003", "해당 편지가 존재하지 않습니다");
+    LETTER_NOT_EXISTS(HttpStatus.BAD_REQUEST, "L-003", "해당 편지가 존재하지 않습니다");
   
     private final HttpStatus httpStatus;
     private final String errorCode;
