@@ -5,7 +5,6 @@ import com.kernelLetter.dto.LetterSendDto;
 import com.kernelLetter.service.LetterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -33,5 +32,6 @@ public class LetterController {
 
 
     // 편지 조회하기
+
 
 }

@@ -39,7 +39,6 @@ public class Letter {
                 .content(content)
                 .build();
     }
-  
     public void setContent(LetterPatchDto dto) {
         this.content = dto.getContent();
     }
