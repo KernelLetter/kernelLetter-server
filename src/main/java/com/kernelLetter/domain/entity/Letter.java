@@ -1,6 +1,7 @@
 package com.kernelLetter.domain.entity;
 
 import com.kernelLetter.dto.LetterSendDto;
+import com.kernelLetter.dto.LetterPatchDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,5 +38,9 @@ public class Letter {
                 .receiver(receiver)
                 .content(content)
                 .build();
+    }
+  
+    public void setContent(LetterPatchDto dto) {
+        this.content = dto.getContent();
     }
 }
