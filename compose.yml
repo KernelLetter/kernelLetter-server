@@ -1,0 +1,65 @@
+name: kernel-letter
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: kernelLetter-mysql
+    restart: always
+    ports:
+      - "33306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345678
+      MYSQL_DATABASE: kernelLetter
+      TZ: Asia/Seoul
+    volumes:
+      - kernelLetter-mysql-data:/var/lib/mysql
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p12345678"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: kernelLetter-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kernelLetter-app
+    env_file:
+      - .env
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+      - redis
+    restart: unless-stopped
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: ap-northeast-2
+        awslogs-group: /ecs/workhub
+        awslogs-stream: workhub-app
+        awslogs-create-group: "true"
+    volumes:
+      - app_logs:/app/logs
+
+volumes:
+  kernelLetter-mysql-data:
+    driver: local
+  redis_data:
+  app_logs:
