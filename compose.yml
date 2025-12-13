@@ -48,13 +48,6 @@ services:
       - mysql
       - redis
     restart: unless-stopped
-    logging:
-      driver: awslogs
-      options:
-        awslogs-region: ap-northeast-2
-        awslogs-group: /ecs/workhub
-        awslogs-stream: workhub-app
-        awslogs-create-group: "true"
     volumes:
       - app_logs:/app/logs
 
