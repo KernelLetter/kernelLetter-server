@@ -7,13 +7,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-@Table(name ="user")
+@Table(name = "users")
+@EntityListeners(AuditingEntityListener.class)
 @Getter
 @Builder
 @NoArgsConstructor
@@ -23,13 +23,27 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String kakaoId;
+    private String kakaoEmail;
 
-    private String email;
+    private String email; //알림 전송용 이메일
     private String name;
 
-    // 프로필 이미지?
-    // private String profileImageUrl;
+    @Builder.Default  // 빌더 패턴에서도 기본값 사용
+    private boolean isFirstLogin = true;
 
+    // todo: 권한
 
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+
+    public void updateEmail(String name, String email) {
+        this.name = name;
+        this.email = email;
+        this.isFirstLogin = false;
+    }
 
 }

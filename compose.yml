@@ -1,3 +1,5 @@
+name: kernel-letter
+
 services:
   mysql:
     image: mysql:8.0
@@ -20,6 +22,37 @@ services:
       timeout: 5s
       retries: 5
 
+  redis:
+    image: redis:7-alpine
+    container_name: kernelLetter-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kernelLetter-app
+    env_file:
+      - .env
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+      - redis
+    restart: unless-stopped
+    volumes:
+      - app_logs:/app/logs
+
 volumes:
   kernelLetter-mysql-data:
     driver: local
+  redis_data:
+  app_logs:
