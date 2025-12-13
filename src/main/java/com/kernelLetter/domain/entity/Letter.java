@@ -42,4 +42,5 @@ public class Letter {
     public void setContent(LetterPatchDto dto) {
         this.content = dto.getContent();
     }
+
 }

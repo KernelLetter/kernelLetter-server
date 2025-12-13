@@ -2,17 +2,18 @@ package com.kernelLetter.service;
 
 import com.kernelLetter.domain.entity.Letter;
 import com.kernelLetter.domain.entity.User;
+import com.kernelLetter.dto.LetterResponseDto;
 import com.kernelLetter.dto.LetterPatchDto;
 import com.kernelLetter.dto.LetterSendDto;
 import com.kernelLetter.global.error.exception.BusinessException;
 import com.kernelLetter.global.error.ErrorCode;
-import com.kernelLetter.global.error.exception.BusinessException;
 import com.kernelLetter.repository.LetterRepository;
 import com.kernelLetter.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.kernelLetter.global.error.ErrorCode;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -51,5 +52,24 @@ public class LetterService {
                 .orElseThrow(() -> new BusinessException(ErrorCode.LETTER_NOT_EXISTS));
 
         letterRepository.delete(letter);
+    }
+
+    public List<LetterResponseDto> findAll(Long userId) {
+
+        List<Letter> letters = letterRepository.findByReceiverId(userId);
+
+        List<LetterResponseDto> list = letters.stream()
+                .map(LetterResponseDto::from)
+                .toList();
+
+        return list;
+    }
+
+    public LetterResponseDto find(Long userId, Long letterId) {
+
+        Letter letter = letterRepository.findByReceiverIdAndLetterId(userId,letterId)
+                        .orElseThrow(() -> new BusinessException(ErrorCode.LETTER_NOT_EXISTS));
+
+        return LetterResponseDto.from(letter);
     }
 }
