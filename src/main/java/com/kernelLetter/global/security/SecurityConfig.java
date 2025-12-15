@@ -38,7 +38,7 @@ public class SecurityConfig {
         // 리액트 개발/배포 도메인 허용 (필요 시 추가/수정)
         config.setAllowedOrigins(List.of(
                 "http://localhost:5173",
-                "https://kernelletter.p-e.kr"
+                "https://kernel-letter-fe.vercel.app"
         ));
         config.setAllowedMethods(Arrays.asList(
                 HttpMethod.GET.name(),
