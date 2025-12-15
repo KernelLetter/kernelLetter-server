@@ -57,7 +57,7 @@ public class KakaoAuthController {
      * @param registerDTO 이름, 이메일 정보
      * @return 등록 완료 메시지
      */
-    @PostMapping("/api/user/register")
+    @PostMapping("/user/register")
     public ResponseEntity<String> registerAdditionalInfo(@RequestBody UserRegisterDTO registerDTO) {
 
         // 추가 정보 등록 및 세션 생성
@@ -71,7 +71,7 @@ public class KakaoAuthController {
      *
      * @return 로그아웃 완료 메시지
      */
-    @PostMapping("/api/user/logout")
+    @PostMapping("/user/logout")
     public ResponseEntity<String> logout() {
         kakaoAuthService.logout();
         return ResponseEntity.ok("로그아웃되었습니다.");
@@ -82,7 +82,7 @@ public class KakaoAuthController {
      *
      * @return 세션에 저장된 사용자 정보
      */
-    @GetMapping("/api/user/me")
+    @GetMapping("/user/me")
     public ResponseEntity<?> getCurrentUser() {
         SessionUser currentUser = kakaoAuthService.getCurrentUser();
 
