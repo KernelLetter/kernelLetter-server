@@ -43,9 +43,9 @@ public class KakaoAuthController {
 
         // 4. 첫 로그인이면 추가 정보 입력 페이지로, 아니면 메인 페이지로 리다이렉트
         if (result.isFirstLogin()) {
-            return new RedirectView("https://kernel-letter-fe.vercel.app/register");
+            return new RedirectView("https://kernelletter.p-e.kr/register");
         } else {
-            return new RedirectView("https://kernel-letter-fe.vercel.app/");
+            return new RedirectView("https://kernelletter.p-e.kr/");
         }
     }
 
