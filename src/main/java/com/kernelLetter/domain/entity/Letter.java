@@ -32,11 +32,15 @@ public class Letter {
     @Column(nullable = false)
     private String content;
 
-    public static Letter from(User sender, User receiver, String content) {
+    @Column
+    private int position;
+
+    public static Letter from(User sender, User receiver, String content, int position) {
         return Letter.builder()
                 .sender(sender)
                 .receiver(receiver)
                 .content(content)
+                .position(position)
                 .build();
     }
     public void setContent(LetterPatchDto dto) {

@@ -7,11 +7,14 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+import com.kernelLetter.domain.entity.User;
+
 @Repository
 public interface LetterRepository extends JpaRepository<Letter, Long> {
     Optional<Letter> findBySenderIdAndReceiverId(Long senderId, Long receiverId);
-    boolean existsBySenderIdAndReceiverId(Long senderId, Long receiverId);
+    boolean existsByReceiverAndPosition(User receiver, int position);
+    boolean existsBySenderAndReceiver(User sender, User receiver);
     List<Letter> findByReceiverId(Long receiverId);
 
-    Optional<Letter> findByReceiverIdAndLetterId(Long userId, Long letterId);
+    Optional<Letter> findByReceiverIdAndId(Long userId, Long Id);
 }

@@ -17,6 +17,8 @@ public class LetterResponseDto {
 
     private String senderName;
 
+    private int position;
+
     public static LetterResponseDto from(Letter letter){
 
         User user = letter.getSender();
@@ -24,6 +26,7 @@ public class LetterResponseDto {
         return LetterResponseDto.builder()
                 .content(letter.getContent())
                 .senderName(user.getName())
+                .position(letter.getPosition())
                 .build();
     }
 }

@@ -13,4 +13,5 @@ public class LetterSendDto {
     private Long senderId;
     private Long receiverId;
     private String content;
+    private int position;
 }
