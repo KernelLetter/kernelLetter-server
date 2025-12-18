@@ -1,11 +1,14 @@
 package com.kernelLetter.controller.letter;
 
+import com.kernelLetter.dto.LetterResponseDto;
 import com.kernelLetter.dto.LetterPatchDto;
 import com.kernelLetter.dto.LetterSendDto;
 import com.kernelLetter.service.LetterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/Letter")
@@ -36,7 +39,19 @@ public class LetterController {
         return ResponseEntity.ok("삭제가 완료되었습니다.");
     }
 
-    // 편지 조회하기
+    // 받은 편지 전체 조회하기
+    @GetMapping("/{userId}/all")
+    public ResponseEntity<List<LetterResponseDto>> findAllLetters(@PathVariable Long userId) {
+        List<LetterResponseDto>list = letterService.findAll(userId);
 
+        return ResponseEntity.ok(list);
+    }
 
+    // 받은 편지 하나 조회하기
+    @GetMapping("/{userId}/{letterId}")
+    public ResponseEntity<LetterResponseDto> findOneLetter(@PathVariable Long userId, @PathVariable Long letterId) {
+        LetterResponseDto letter = letterService.find(userId, letterId);
+
+        return ResponseEntity.ok(letter);
+    }
 }
