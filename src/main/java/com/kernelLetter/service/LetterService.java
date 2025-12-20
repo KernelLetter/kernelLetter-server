@@ -62,9 +62,9 @@ public class LetterService {
     }
 
     @Transactional(readOnly = true)
-    public List<LetterResponseDto> findAll(Long userId) {
+    public List<LetterResponseDto> findAll(String receiverName) {
 
-        List<Letter> letters = letterRepository.findByReceiverId(userId);
+        List<Letter> letters = letterRepository.findByReceiverName(receiverName);
 
         List<LetterResponseDto> list = letters.stream()
                 .map(LetterResponseDto::from)

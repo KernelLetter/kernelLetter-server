@@ -40,9 +40,9 @@ public class LetterController {
     }
 
     // 받은 편지 전체 조회하기
-    @GetMapping("/{userId}/all")
-    public ResponseEntity<List<LetterResponseDto>> findAllLetters(@PathVariable Long userId) {
-        List<LetterResponseDto>list = letterService.findAll(userId);
+    @GetMapping("/{receiverName}/all")
+    public ResponseEntity<List<LetterResponseDto>> findAllLetters(@PathVariable String receiverName) {
+        List<LetterResponseDto>list = letterService.findAll(receiverName);
 
         return ResponseEntity.ok(list);
     }
