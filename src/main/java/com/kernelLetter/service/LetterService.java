@@ -31,19 +31,19 @@ public class LetterService {
         User sender = userRepository.findById(dto.getSenderId())
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_EXISTS));
 
-        User receiver = userRepository.findById(dto.getReceiverId())
-                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_EXISTS));
+        /*User receiver = userRepository.findBy(dto.getReceiverId())
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_EXISTS));*/
 
         // 이미 편지를 보냈는지 확인
-        if (letterRepository.existsBySenderAndReceiver(sender, receiver)) {
+        if (letterRepository.existsBySenderAndReceiverName(sender, dto.getReceiverName())) {
             throw new BusinessException(ErrorCode.SENDER_ALREADY_SENT_LETTER);
         }
         // 해당 위치에 이미 편지가 존재하는지 확인
-        if (letterRepository.existsByReceiverAndPosition(receiver, dto.getPosition())) {
+        if (letterRepository.existsByReceiverNameAndPosition(dto.getReceiverName(), dto.getPosition())) {
             throw new BusinessException(ErrorCode.LETTER_ALREADY_EXISTS_AT_POSITION);
         }
 
-        letterRepository.save(Letter.from(sender, receiver, dto.getContent(), dto.getPosition()));
+        letterRepository.save(Letter.from(sender, dto.getReceiverName(), dto.getContent(), dto.getPosition()));
     }
 
     public void patch(Long receiverId, LetterPatchDto dto) {
