@@ -24,7 +24,7 @@ public class LetterService {
     private final UserRepository userRepository;
 
     public void sendLetter(LetterSendDto dto) {
-        if (dto.getPosition() < 1 || dto.getPosition() > 39) {
+        if (dto.getPosition() < 0 || dto.getPosition() > 39) {
             throw new BusinessException(ErrorCode.INVALID_POSITION); // ErrorCode에 추가 필요
         }
 
