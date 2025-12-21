@@ -5,6 +5,7 @@ import com.kernelLetter.domain.entity.User;
 import com.kernelLetter.dto.LetterResponseDto;
 import com.kernelLetter.dto.LetterPatchDto;
 import com.kernelLetter.dto.LetterSendDto;
+import com.kernelLetter.dto.LetterSenderResponseDto;
 import com.kernelLetter.global.error.exception.BusinessException;
 import com.kernelLetter.global.error.ErrorCode;
 import com.kernelLetter.repository.LetterRepository;
@@ -80,5 +81,15 @@ public class LetterService {
                 .orElseThrow(() -> new BusinessException(ErrorCode.LETTER_NOT_EXISTS));
 
         return LetterResponseDto.from(letter);
+    }
+
+    @Transactional(readOnly = true)
+    public List<LetterSenderResponseDto> findAllByUserId(Long userId) {
+
+        List<Letter> allBySenderId = letterRepository.findAllBySenderId(userId);
+
+        return allBySenderId.stream()
+                .map(LetterSenderResponseDto::from)
+                .toList();
     }
 }
