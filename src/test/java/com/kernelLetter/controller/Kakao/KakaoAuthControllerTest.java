@@ -82,7 +82,7 @@ class KakaoAuthControllerTest {
         mockMvc.perform(get("/auth/kakao/callback")
                         .param("code", testCode))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(header().string("Location", "http://localhost:5173/"));
+                .andExpect(header().string("Location", "https://kernelletter.p-e.kr/"));
 
         // verify
         verify(kakaoAuthService, times(1)).requestAccessToken(testCode);
@@ -103,7 +103,7 @@ class KakaoAuthControllerTest {
         mockMvc.perform(get("/auth/kakao/callback")
                         .param("code", testCode))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(header().string("Location", "http://localhost:5173/register"));
+                .andExpect(header().string("Location", "https://kernelletter.p-e.kr/register"));
     }
 
     @Test

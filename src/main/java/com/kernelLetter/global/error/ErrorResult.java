@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 public class ErrorResult {
 
     private String errorCode;
+    private String errorMessage;
     private LocalDateTime timestamp;
 
     public static ErrorResult of (String errorCode, String message){
@@ -20,6 +21,7 @@ public class ErrorResult {
 
         return ErrorResult.builder()
                 .errorCode(errorCode)
+                .errorMessage(message)
                 .timestamp(LocalDateTime.now())
                 .build();
     }
