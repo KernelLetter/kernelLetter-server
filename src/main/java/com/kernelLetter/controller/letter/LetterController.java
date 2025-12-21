@@ -3,6 +3,7 @@ package com.kernelLetter.controller.letter;
 import com.kernelLetter.dto.LetterResponseDto;
 import com.kernelLetter.dto.LetterPatchDto;
 import com.kernelLetter.dto.LetterSendDto;
+import com.kernelLetter.dto.LetterSenderResponseDto;
 import com.kernelLetter.service.LetterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -53,5 +54,13 @@ public class LetterController {
         LetterResponseDto letter = letterService.find(userId, letterId);
 
         return ResponseEntity.ok(letter);
+    }
+
+    // 받은 편지 전체 조회하기
+    @GetMapping("/{userId}/all")
+    public ResponseEntity<List<LetterSenderResponseDto>> findAllSendLetters(@PathVariable Long userId) {
+        List<LetterSenderResponseDto>list = letterService.findAllByUserId(userId);
+
+        return ResponseEntity.ok(list);
     }
 }
