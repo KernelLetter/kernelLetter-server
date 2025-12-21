@@ -45,7 +45,8 @@ public class KakaoAuthController {
         if (result.isFirstLogin()) {
             return new RedirectView("https://kernelletter.p-e.kr/register");
         } else {
-            return new RedirectView("https://kernelletter.p-e.kr/");
+            //return new RedirectView("https://kernelletter.p-e.kr/");
+            return new RedirectView("http://localhost:5173/");
         }
     }
 
