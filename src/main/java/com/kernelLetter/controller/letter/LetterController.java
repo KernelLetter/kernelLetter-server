@@ -57,7 +57,7 @@ public class LetterController {
     }
 
     // 받은 편지 전체 조회하기
-    @GetMapping("/{userId}/all")
+    @GetMapping("/send/{userId}/all")
     public ResponseEntity<List<LetterSenderResponseDto>> findAllSendLetters(@PathVariable Long userId) {
         List<LetterSenderResponseDto>list = letterService.findAllByUserId(userId);
 
