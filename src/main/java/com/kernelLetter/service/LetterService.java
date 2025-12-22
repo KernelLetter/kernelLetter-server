@@ -92,4 +92,22 @@ public class LetterService {
                 .map(LetterSenderResponseDto::from)
                 .toList();
     }
+
+    @Transactional(readOnly = true)
+    public List<LetterResponseDto> findAllByUser(String receiverName, Long userId) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_EXISTS));
+
+        if(!user.getName().equals(receiverName)) {
+            throw new BusinessException(ErrorCode.LETTER_ACCESS_DENIED);
+        }
+
+        List<Letter> letters = letterRepository.findByReceiverName(receiverName);
+        List<LetterResponseDto> list = letters.stream()
+                .map(LetterResponseDto::from)
+                .toList();
+
+        return list;
+    }
 }
