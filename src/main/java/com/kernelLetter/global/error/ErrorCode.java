@@ -40,7 +40,8 @@ public enum ErrorCode {
     LETTER_ALREADY_EXISTS_AT_POSITION(HttpStatus.CONFLICT, "L-001", "해당 위치에 이미 편지가 존재합니다."),
     SENDER_ALREADY_SENT_LETTER(HttpStatus.CONFLICT, "L-002", "이미 편지를 보냈습니다."),
     LETTER_NOT_EXISTS(HttpStatus.BAD_REQUEST, "L-003", "해당 편지가 존재하지 않습니다"),
-    INVALID_POSITION(HttpStatus.BAD_REQUEST,"L-004","범위를 벗어난 위치입니다");
+    INVALID_POSITION(HttpStatus.BAD_REQUEST,"L-004","범위를 벗어난 위치입니다"),
+    LETTER_ACCESS_DENIED(HttpStatus.BAD_REQUEST,"L-005","본인의 편지만 조회할 수 있습니다.");
   
     private final HttpStatus httpStatus;
     private final String errorCode;
