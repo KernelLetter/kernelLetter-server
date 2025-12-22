@@ -1,9 +1,6 @@
 package com.kernelLetter.controller.letter;
 
-import com.kernelLetter.dto.LetterResponseDto;
-import com.kernelLetter.dto.LetterPatchDto;
-import com.kernelLetter.dto.LetterSendDto;
-import com.kernelLetter.dto.LetterSenderResponseDto;
+import com.kernelLetter.dto.*;
 import com.kernelLetter.service.LetterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -42,8 +39,8 @@ public class LetterController {
 
     // 받은 편지 전체 조회하기
     @GetMapping("/{receiverName}/all")
-    public ResponseEntity<List<LetterResponseDto>> findAllLetters(@PathVariable String receiverName) {
-        List<LetterResponseDto>list = letterService.findAll(receiverName);
+    public ResponseEntity<List<LetterHideResponseDto>> findAllLetters(@PathVariable String receiverName) {
+        List<LetterHideResponseDto> list = letterService.findAll(receiverName);
 
         return ResponseEntity.ok(list);
     }

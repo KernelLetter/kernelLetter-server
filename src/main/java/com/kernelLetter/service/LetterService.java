@@ -2,10 +2,7 @@ package com.kernelLetter.service;
 
 import com.kernelLetter.domain.entity.Letter;
 import com.kernelLetter.domain.entity.User;
-import com.kernelLetter.dto.LetterResponseDto;
-import com.kernelLetter.dto.LetterPatchDto;
-import com.kernelLetter.dto.LetterSendDto;
-import com.kernelLetter.dto.LetterSenderResponseDto;
+import com.kernelLetter.dto.*;
 import com.kernelLetter.global.error.exception.BusinessException;
 import com.kernelLetter.global.error.ErrorCode;
 import com.kernelLetter.repository.LetterRepository;
@@ -63,14 +60,17 @@ public class LetterService {
     }
 
     @Transactional(readOnly = true)
-    public List<LetterResponseDto> findAll(String receiverName) {
+    public List<LetterHideResponseDto> findAll(String receiverName) {
 
         List<Letter> letters = letterRepository.findByReceiverName(receiverName);
 
-        List<LetterResponseDto> list = letters.stream()
+        /*List<LetterResponseDto> list = letters.stream()
                 .map(LetterResponseDto::from)
-                .toList();
+                .toList();*/
 
+        List<LetterHideResponseDto> list = letters.stream()
+                .map(LetterHideResponseDto::from)
+                .toList();
         return list;
     }
 
