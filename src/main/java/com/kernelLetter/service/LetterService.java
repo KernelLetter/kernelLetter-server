@@ -47,8 +47,8 @@ public class LetterService {
         letterRepository.save(Letter.from(sender, dto.getReceiverName(), dto.getContent(), dto.getPosition()));
     }
 
-    public void patch(Long receiverId, LetterPatchDto dto) {
-        Letter letter = letterRepository.findBySenderIdAndReceiverId(dto.getSenderId(), receiverId)
+    public void patch(String receiverId, LetterPatchDto dto) {
+        Letter letter = letterRepository.findBySenderIdAndReceiverName(dto.getSenderId(), receiverId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.LETTER_NOT_EXISTS));
 
         letter.setContent(dto);
