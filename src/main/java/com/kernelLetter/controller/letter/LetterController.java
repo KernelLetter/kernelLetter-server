@@ -25,9 +25,9 @@ public class LetterController {
 
     // 편지 수정하기
     @PatchMapping("/{receiverId}")
-    public ResponseEntity<String> update(@PathVariable Long receiverId,
+    public ResponseEntity<String> update(@PathVariable String receiverName,
                                          @RequestBody LetterPatchDto dto) {
-        letterService.patch(receiverId,dto);
+        letterService.patch(receiverName,dto);
 
         return ResponseEntity.ok("수정이 완료되었습니다.");
     }

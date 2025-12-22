@@ -11,7 +11,7 @@ import com.kernelLetter.domain.entity.User;
 
 @Repository
 public interface LetterRepository extends JpaRepository<Letter, Long> {
-    Optional<Letter> findBySenderIdAndReceiverId(Long senderId, Long receiverId);
+    Optional<Letter> findBySenderIdAndReceiverName(Long senderId, String receiverName);
     boolean existsByReceiverNameAndPosition(String receiver, int position);
     boolean existsBySenderAndReceiverName(User sender, String receiver);
     List<Letter> findByReceiverId(Long receiverId);
