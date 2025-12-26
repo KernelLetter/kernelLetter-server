@@ -2,5 +2,5 @@ spring:
   application:
     name: kernelLetter
 
-  profiles:
-    active: ${SPRING_PROFILES_ACTIVE:secret}
+#  profiles:
+#    active: ${SPRING_PROFILES_ACTIVE:secret}
