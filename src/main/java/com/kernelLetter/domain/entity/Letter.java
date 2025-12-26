@@ -25,21 +25,28 @@ public class Letter {
     private User sender;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "receiver", nullable = false)
+    @JoinColumn(name = "receiver", nullable = true)
     private User receiver;
+
+    private String receiverName;
 
     @Lob
     @Column(nullable = false)
     private String content;
 
-    public static Letter from(User sender, User receiver, String content) {
+    @Column
+    private int position;
+
+    public static Letter from(User sender, String receiver, String content, int position) {
         return Letter.builder()
                 .sender(sender)
-                .receiver(receiver)
+                .receiverName(receiver)
                 .content(content)
+                .position(position)
                 .build();
     }
     public void setContent(LetterPatchDto dto) {
         this.content = dto.getContent();
     }
+
 }

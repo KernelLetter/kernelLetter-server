@@ -6,6 +6,7 @@ import com.kernelLetter.dto.SessionUser;
 import com.kernelLetter.dto.UserRegisterDTO;
 import com.kernelLetter.service.KakaoAuthService;
 import lombok.RequiredArgsConstructor;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
@@ -30,22 +31,35 @@ public class KakaoAuthController {
     // @param code 카카오에서 발급한 인가코드
     // @return 프론트엔드 페이지로 리다이렉트
     @GetMapping("/auth/kakao/callback")
-    public RedirectView kakaoCallback(@RequestParam("code") String code) {
+    public RedirectView kakaoCallback(@RequestParam("code") String code, HttpSession session) {
 
-        // 1. 인가코드로 Access Token 발급
-        String accessToken = kakaoAuthService.requestAccessToken(code);
+        // 중복 요청 방지: 이미 처리 중이면 바로 메인으로 리다이렉트
+        if (Boolean.TRUE.equals(session.getAttribute("kakaoLoginInProgress"))) {
+            return new RedirectView("https://kernelletter.p-e.kr/");
+        }
 
-        // 2. Access Token 으로 사용자 정보 조회
-        KakaoUserInfoDTO kakaoUserInfo = kakaoAuthService.requestUserInfo(accessToken);
+        // 중복 처리 플래그 설정
+        session.setAttribute("kakaoLoginInProgress", true);
 
-        // 3. 로그인 처리 (회원가입 또는 기존 사용자 로그인)
-        LoginResultDTO result = kakaoAuthService.processLogin(kakaoUserInfo);
+        try {
+            // 1. 인가코드로 Access Token 발급
+            String accessToken = kakaoAuthService.requestAccessToken(code);
 
-        // 4. 첫 로그인이면 추가 정보 입력 페이지로, 아니면 메인 페이지로 리다이렉트
-        if (result.isFirstLogin()) {
-            return new RedirectView("http://localhost:5173/register");
-        } else {
-            return new RedirectView("http://localhost:5173/");
+            // 2. Access Token 으로 사용자 정보 조회
+            KakaoUserInfoDTO kakaoUserInfo = kakaoAuthService.requestUserInfo(accessToken);
+
+            // 3. 로그인 처리 (회원가입 또는 기존 사용자 로그인)
+            LoginResultDTO result = kakaoAuthService.processLogin(kakaoUserInfo);
+
+            // 4. 첫 로그인이면 추가 정보 입력 페이지로, 아니면 메인 페이지로 리다이렉트
+            if (result.isFirstLogin()) {
+                return new RedirectView("https://kernelletter.p-e.kr/register");
+            } else {
+                return new RedirectView("https://kernelletter.p-e.kr/");
+            }
+        } finally {
+            // 처리 완료 후 플래그 해제
+            session.removeAttribute("kakaoLoginInProgress");
         }
     }
 
@@ -57,7 +71,7 @@ public class KakaoAuthController {
      * @param registerDTO 이름, 이메일 정보
      * @return 등록 완료 메시지
      */
-    @PostMapping("/api/user/register")
+    @PostMapping("/user/register")
     public ResponseEntity<String> registerAdditionalInfo(@RequestBody UserRegisterDTO registerDTO) {
 
         // 추가 정보 등록 및 세션 생성
@@ -71,7 +85,7 @@ public class KakaoAuthController {
      *
      * @return 로그아웃 완료 메시지
      */
-    @PostMapping("/api/user/logout")
+    @PostMapping("/user/logout")
     public ResponseEntity<String> logout() {
         kakaoAuthService.logout();
         return ResponseEntity.ok("로그아웃되었습니다.");
@@ -82,7 +96,7 @@ public class KakaoAuthController {
      *
      * @return 세션에 저장된 사용자 정보
      */
-    @GetMapping("/api/user/me")
+    @GetMapping("/user/me")
     public ResponseEntity<?> getCurrentUser() {
         SessionUser currentUser = kakaoAuthService.getCurrentUser();
 

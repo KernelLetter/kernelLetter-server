@@ -23,7 +23,6 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String kakaoId;
     private String kakaoEmail;
 
@@ -46,4 +45,5 @@ public class User {
         this.email = email;
         this.isFirstLogin = false;
     }
+
 }

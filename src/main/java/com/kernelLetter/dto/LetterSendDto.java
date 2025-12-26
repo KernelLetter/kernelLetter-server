@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LetterSendDto {
     private Long senderId;
-    private Long receiverId;
+    private String receiverName;
     private String content;
+    private int position;
 }

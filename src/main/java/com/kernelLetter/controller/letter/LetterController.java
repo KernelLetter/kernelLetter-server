@@ -1,11 +1,12 @@
 package com.kernelLetter.controller.letter;
 
-import com.kernelLetter.dto.LetterPatchDto;
-import com.kernelLetter.dto.LetterSendDto;
+import com.kernelLetter.dto.*;
 import com.kernelLetter.service.LetterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/Letter")
@@ -20,10 +21,10 @@ public class LetterController {
     }
 
     // 편지 수정하기
-    @PatchMapping("/{receiverId}")
-    public ResponseEntity<String> update(@PathVariable Long receiverId,
+    @PatchMapping("/{receiverName}")
+    public ResponseEntity<String> update(@PathVariable String receiverName,
                                          @RequestBody LetterPatchDto dto) {
-        letterService.patch(receiverId,dto);
+        letterService.patch(receiverName,dto);
 
         return ResponseEntity.ok("수정이 완료되었습니다.");
     }
@@ -36,7 +37,36 @@ public class LetterController {
         return ResponseEntity.ok("삭제가 완료되었습니다.");
     }
 
-    // 편지 조회하기
+    // 받은 편지 전체 조회하기
+    @GetMapping("/{receiverName}/all")
+    public ResponseEntity<List<LetterHideResponseDto>> findAllLetters(@PathVariable String receiverName) {
+        List<LetterHideResponseDto> list = letterService.findAll(receiverName);
 
+        return ResponseEntity.ok(list);
+    }
 
+    // 로그인 사용자의 받은 편지 전체 조회하기
+    @GetMapping("/{receiverName}/user/{userId}/all")
+    public ResponseEntity<List<LetterResponseDto>> findAllLettersByLoginUser(@PathVariable String receiverName,
+                                                                             @PathVariable Long userId) {
+        List<LetterResponseDto> list = letterService.findAllByUser(receiverName, userId);
+
+        return ResponseEntity.ok(list);
+    }
+
+    // 받은 편지 하나 조회하기
+    @GetMapping("/{userId}/{letterId}")
+    public ResponseEntity<LetterResponseDto> findOneLetter(@PathVariable Long userId, @PathVariable Long letterId) {
+        LetterResponseDto letter = letterService.find(userId, letterId);
+
+        return ResponseEntity.ok(letter);
+    }
+
+    // 받은 편지 전체 조회하기
+    @GetMapping("/send/{userId}/all")
+    public ResponseEntity<List<LetterSenderResponseDto>> findAllSendLetters(@PathVariable Long userId) {
+        List<LetterSenderResponseDto>list = letterService.findAllByUserId(userId);
+
+        return ResponseEntity.ok(list);
+    }
 }
