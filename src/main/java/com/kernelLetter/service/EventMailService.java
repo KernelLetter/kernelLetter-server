@@ -1,3 +1,4 @@
+/*
 package com.kernelLetter.service;
 
 import com.kernelLetter.domain.entity.Letter;
@@ -82,3 +83,4 @@ public class EventMailService {
         return body.toString();
     }
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package com.kernelLetter.service;
 
 import jakarta.annotation.PostConstruct;
@@ -44,3 +45,4 @@ public class EventMailScheduler {
         }
     }
 }
+*/
