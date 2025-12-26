@@ -25,7 +25,7 @@ public class LetterResponseDto {
 
         return LetterResponseDto.builder()
                 .content(letter.getContent())
-                .senderName(user.getName())
+                .senderName(user != null ? user.getName() : null)
                 .position(letter.getPosition())
                 .build();
     }
