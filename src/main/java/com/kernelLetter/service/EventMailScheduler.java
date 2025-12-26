@@ -1,4 +1,3 @@
-/*
 package com.kernelLetter.service;
 
 import jakarta.annotation.PostConstruct;
@@ -13,7 +12,9 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Date;
 
-@Component
+// API 방식으로 변경되어 스케줄러 비활성화
+// 필요시 다시 활성화 가능
+//@Component
 @RequiredArgsConstructor
 @Slf4j
 public class EventMailScheduler {
@@ -45,4 +46,3 @@ public class EventMailScheduler {
         }
     }
 }
-*/

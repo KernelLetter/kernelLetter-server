@@ -1,4 +1,3 @@
-/*
 package com.kernelLetter.service;
 
 import com.kernelLetter.domain.entity.Letter;
@@ -12,11 +11,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class EventMailService {
+
+    private final AtomicBoolean mailSent = new AtomicBoolean(false);
 
     private static final String SUBJECT = "💌 커널레터 편지가 도착했습니다 — 지금 확인해 주세요!";
     private static final String HEADER = """
@@ -28,13 +30,16 @@ public class EventMailService {
             커널레터에 도착한 특별 편지를 지금 확인해 주세요.
             함께 했던 시간들이 더 오래 기억에 남을 거예요.
 
-            커널레터 서버는 1월 중순까지만 운영되니 그 전에 편지함을 꼭 확인해 주세요.
+            커널레터 서버는 12월 30일까지만 운영되니 그 전에 편지함을 꼭 확인해 주세요.
             따뜻한 연말 보내시길 바랍니다.
 
             커널레터 바로가기: https://kernelletter.p-e.kr/
+            (12월 30일 이후 모든 데이터 삭제 및 페이지 접속이 불가하오니, 그 전에 확인 바랍니다.)
 
             🎁 기여자: 김지은, 김동균, 조현희, 조건희
-
+            
+            ====================================================
+            
             """;
 
     private final UserRepository userRepository;
@@ -43,23 +48,36 @@ public class EventMailService {
 
     @Transactional(readOnly = true)
     public void sendAnnouncementMails() {
+        // 중복 발송 방지
+        if (!mailSent.compareAndSet(false, true)) {
+            log.warn("Event mail has already been sent. Skipping duplicate send request.");
+            throw new IllegalStateException("이벤트 메일은 이미 발송되었습니다.");
+        }
+
+        log.info("Starting event mail send to all users");
         List<User> users = userRepository.findAll();
+        int successCount = 0;
+        int failCount = 0;
 
         for (User user : users) {
             if (!StringUtils.hasText(user.getEmail())) {
                 continue;
             }
 
-            List<Letter> receivedLetters = letterRepository.findAllByReceiverId(user.getId());
+            List<Letter> receivedLetters = letterRepository.findByReceiverName(user.getName());
             String body = buildBody(receivedLetters);
 
             try {
                 emailService.sendMail(user.getEmail(), SUBJECT, body);
                 log.info("Event mail sent to {}", user.getEmail());
+                successCount++;
             } catch (Exception e) {
                 log.error("Failed to send event mail to {}", user.getEmail(), e);
+                failCount++;
             }
         }
+
+        log.info("Event mail send completed. Success: {}, Failed: {}", successCount, failCount);
     }
 
     private String buildBody(List<Letter> letters) {
@@ -75,12 +93,12 @@ public class EventMailService {
                     ? letter.getSender().getName()
                     : "익명";
             body.append(senderName)
-                    .append(": ")
+                    .append(" : ")
                     .append(letter.getContent())
                     .append("\n");
         }
 
+        body.append("\n====================================================");
         return body.toString();
     }
 }
-*/
