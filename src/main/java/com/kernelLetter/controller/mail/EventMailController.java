@@ -24,7 +24,7 @@ public class EventMailController {
      *
      * @return 발송 결과 메시지
      */
-    @PostMapping("/send")
+    /*@PostMapping("/send")*/
     public ResponseEntity<String> sendEventMail() {
         log.info("Event mail send requested");
 
