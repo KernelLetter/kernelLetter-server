@@ -106,6 +106,7 @@ public class LetterService {
         List<Letter> letters = letterRepository.findByReceiverName(receiverName);
         List<LetterResponseDto> list = letters.stream()
                 .map(LetterResponseDto::from)
+                .filter(dto -> dto.getSenderName() != null)
                 .toList();
 
         return list;
