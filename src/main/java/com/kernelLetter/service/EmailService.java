@@ -1,3 +1,4 @@
+/*
 package com.kernelLetter.service;
 
 import jakarta.mail.MessagingException;
@@ -36,3 +37,4 @@ public class EmailService {
         }
     }
 }
+*/
